@@ -32,11 +32,11 @@ function createInsertableLinks() {
   for (var i=0; i < insertableItems.length; i++) {
     element = insertableItems[i];
     contentItem = insertableItems[i].getElementsByClassName("content")[0];
-    contentItem.innerHTML += "<div class='insertAbove' onclick=\"insertAbove(this)\"></div>";
+    contentItem.innerHTML += "<button class='insertAbove' onclick=\"insertAbove(this)\"></button>";
     if (!hasULChild(element)) {
-      contentItem.innerHTML += "<div class='insertUnder' onclick=\"insertUnder(this)\"></div>";
+      contentItem.innerHTML += "<button class='insertUnder' onclick=\"insertUnder(this)\"></button>";
       if (!hasElementSibling(element)) {
-        contentItem.innerHTML += "<div class='insertBelow' onclick=\"insertBelow(this)\"></div>";
+        contentItem.innerHTML += "<button class='insertBelow' onclick=\"insertBelow(this)\"></button>";
       }
     }
   }
