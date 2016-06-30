@@ -193,14 +193,17 @@ input[type="checkbox"] {
 
 .insertAbove {
 	z-index: 1;
+	background-color: yellow;
 }
 
 .insertBelow {
 	z-index: 2;
+	background-color: orange;
 }
 
 .insertUnder {
 	z-index: 3;
+	background-color: red;
 }
 
 .top > li > .content > .insertAbove {
