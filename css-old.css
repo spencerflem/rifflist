@@ -115,7 +115,6 @@ ul {
 
 .idea li {
 	font-weight: normal;
-	padding: 0;
 }
 
 .comment li {
@@ -184,11 +183,12 @@ input[type="checkbox"] {
 
 .insertAbove, .insertUnder, .insertBelow {
 	height: 0.45rem;
-	width: 6rem;
-	cursor: pointer;
-	display: block;
+	width: 15em;
 	font-family: monospace;
 	font-size: 0.4rem;
+	cursor: pointer;
+	left: -1.3rem;
+	display: block;
 	opacity: 0;
 }
 
@@ -196,23 +196,18 @@ input[type="checkbox"] {
 	opacity: 1;
 }
 
-.insertBeneath {
-	position: absolute;
-
-}
-
 .insertAbove {
 	z-index: 1;
+	padding-left: 1.3rem;
 }
 
 .insertBelow {
 	z-index: 2;
+	padding-left: 1.3rem;
 }
 
 .insertUnder {
 	z-index: 3;
-	position: absolute;
-	left: 2rem;
 }
 
 .top > li > .content > .insertAbove {
@@ -228,4 +223,8 @@ input[type="checkbox"] {
 }
 .comment > li > .content > .insertAbove {
 	bottom: 0.88rem;
+}
+
+.insertUnder {
+	left: 2rem;
 }
