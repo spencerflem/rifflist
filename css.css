@@ -184,7 +184,7 @@ input[type="checkbox"] {
 
 .insertAbove, .insertUnder, .insertBelow {
 	height: 0.45rem;
-	width: 6rem;
+	width: 1.9rem;
 	cursor: pointer;
 	display: block;
 	font-family: monospace;
@@ -201,16 +201,24 @@ input[type="checkbox"] {
 
 }
 
+/* debug colors
 .insertAbove {
-	z-index: 1;
+	background-color: yellow;
+	opacity: 0.5;
 }
 
 .insertBelow {
-	z-index: 2;
+	background-color: orange;
+	opacity: 0.5;
 }
 
 .insertUnder {
-	z-index: 3;
+	background-color: red;
+	opacity: 0.5;
+}
+*/
+
+.insertUnder {
 	position: absolute;
 	left: 2rem;
 }

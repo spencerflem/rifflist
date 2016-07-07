@@ -6,26 +6,31 @@ document.addEventListener("DOMContentLoaded", function(e) {
 });
 
 function createCollapsableList() {
-  //serverside
   collapsableItems = document.getElementById("top").getElementsByTagName("LI");
   var incrementingId = 0;
   for (var i=0; i < collapsableItems.length; i++) {
     item = collapsableItems[i];
-    //change to document.createElement(style)
-    myLabel = "<input type='checkbox' id='id$'><label for='id$' class='minimize'>[-]</label><label for='id$' class='maximize'>[+]</label>";
-    customLabel = myLabel.replace(/\$/g, incrementingId);
-    item.innerHTML = customLabel + item.innerHTML;
+    insertCollapser(item, incrementingId);
     incrementingId++;
   }
 }
 
-//unused - will have no ability to edit (unless admin)
-function createEditableItems() {
-  editableItems = document.getElementsByClassName("editable");
-  for (var i=0; i < editableItems.length; i++) {
-    contentItem = editableItems[i].getElementsByClassName("content")[0];
-    contentItem.innerHTML += "<span class='edit'>edit</span><span class='delete'>delete</span>";
-  }
+function insertCollapser(item, incrementingId) {
+  id = "id" + incrementingId;
+  checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.id = id;
+  minimize = document.createElement("label");
+  minimize.for = id;
+  minimize.className = "minimize";
+  minimize.innerHTML = "[-]";
+  maximize = document.createElement("label");
+  maximize.for = id;
+  maximize.className = "maximize";
+  maximize.innerHTML = "[+]";
+  item.insertBefore(maximize, item.firstChild); //lowest
+  item.insertBefore(minimize, item.firstChild);
+  item.insertBefore(checkbox, item.firstChild); //highest
 }
 
 function createInsertableLinks() {
@@ -74,11 +79,10 @@ function getItemName(element) {
 
 function insertInsertAbove(element) {
   contentItem = element.getElementsByClassName("content")[0];
-  itemName = getItemName(element);
   insertAbove = document.createElement("div");
-  insertAbove.innerHTML = "New " + itemName + " --->"
+  insertAbove.innerHTML = "New -->";
   insertAbove.className = "insertAbove";
-  insertAbove.setAttribute("onclick","insertAbove(this)")
+  insertAbove.addEventListener('click', function() { newInsertAbove(insertAbove) });
   element.insertBefore(insertAbove, element.firstChild);
 }
 
@@ -89,19 +93,18 @@ function insertInsertBeneath(element) {
 }
 
 function createInsertBelow(element) {
-  itemName = getItemName(element);
   insertBelow = document.createElement("div");
   insertBelow.className = "insertBelow";
-  insertBelow.innerHTML = "New " + itemName + " --->";
-  insertBelow.setAttribute("onclick","insertBelow(this)");
+  insertBelow.innerHTML = "New -->";
+  insertBelow.addEventListener('click', function() { newInsertBelow(insertBelow) });
   return insertBelow;
 }
 
 function createInsertUnder() {
   insertUnder = document.createElement("div");
-  insertUnder.innerHTML = "New Comment --->"
+  insertUnder.innerHTML = "New -->";
   insertUnder.className = "insertUnder";
-  insertUnder.setAttribute("onclick","insertUnder(this)")
+  insertUnder.addEventListener('click', function() { newInsertUnder(insertUnder) });
   return insertUnder;
 }
 
@@ -120,19 +123,21 @@ function createInsertLi() {
 
 //TODO! replace ALL this with hidden elements & css trickery!
 
-function insertAbove(element) {
-  contaningLi = element.parentNode.parentNode;
+function newInsertAbove(element) {
+  console.log(element);
+  contaningLi = element.parentNode;
+  console.log(contaningLi);
   newLi = createInsertLi();
   contaningLi.parentNode.insertBefore(newLi, contaningLi);
 }
 
-function insertBelow(element) {
+function newInsertBelow(element) {
   contaningLi = element.parentNode.parentNode;
   newLi = createInsertLi();
   contaningLi.parentNode.insertBefore(newLi, contaningLi.nextSibling);
 }
 
-function insertUnder(element) {
+function newInsertUnder(element) {
   //only on ideas/comments? TAKE ARG OF TYPE!
   contaningLi = element.parentNode.parentNode;
   child = document.createElement("ul");
