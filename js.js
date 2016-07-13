@@ -9,22 +9,22 @@ function createCollapsableList() {
   collapsableItems = document.getElementById("top").getElementsByTagName("LI");
   var incrementingId = 0;
   for (var i=0; i < collapsableItems.length; i++) {
-    item = collapsableItems[i];
+    var item = collapsableItems[i];
     insertCollapser(item, incrementingId);
     incrementingId++;
   }
 }
 
 function insertCollapser(item, incrementingId) {
-  id = "id" + incrementingId;
-  checkbox = document.createElement("input");
+  var id = "id" + incrementingId;
+  var checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.id = id;
-  minimize = document.createElement("label");
+  var minimize = document.createElement("label");
   minimize.for = id;
   minimize.className = "minimize";
   minimize.innerHTML = "[-]";
-  maximize = document.createElement("label");
+  var maximize = document.createElement("label");
   maximize.for = id;
   maximize.className = "maximize";
   maximize.innerHTML = "[+]";
@@ -34,18 +34,18 @@ function insertCollapser(item, incrementingId) {
 }
 
 function createInsertableLinks() {
-  ideas = document.getElementsByClassName("idea");
+  var ideas = document.getElementsByClassName("idea");
   for (var j=0; j < ideas.length; j++) {
-    insertableItems = ideas[j].getElementsByTagName("LI");
+    var insertableItems = ideas[j].getElementsByTagName("LI");
     for (var i=0; i < insertableItems.length; i++) {
-      element = insertableItems[i];
+      var element = insertableItems[i];
       insertInsertAbove(element);
       if (!hasULChild(element)) {
-        insertInsertBeneath(element);
-        insertUnder = createInsertUnder(element);
+        var insertBeneath = insertInsertBeneath(element);
+        var insertUnder = createInsertUnder(element);
         insertBeneath.appendChild(insertUnder);
         if (!hasElementSibling(element)) {
-          insertBelow = createInsertBelow(element);
+          var insertBelow = createInsertBelow(element);
           insertBeneath.appendChild(insertBelow);
         }
       }
@@ -58,8 +58,8 @@ function hasULChild(element) {
 }
 
 function hasElementSibling(element) {
-  next = element.nextSibling;
-  hasSibling = false;
+  var next = element.nextSibling;
+  var hasSibling = false;
   while(next !== null) {
     if(next.nodeType === 1) {
       hasSibling = true;
@@ -70,7 +70,7 @@ function hasElementSibling(element) {
 }
 
 function getItemName(element) {
-  itemName = "Comment";
+  var itemName = "Comment";
   if(element.parentNode.className === "idea") {
     itemName = "Idea";
   }
@@ -78,22 +78,24 @@ function getItemName(element) {
 }
 
 function insertInsertAbove(element) {
-  contentItem = element.getElementsByClassName("content")[0];
-  insertAbove = document.createElement("div");
+  var contentItem = element.getElementsByClassName("content")[0];
+  var insertAbove = document.createElement("div");
   insertAbove.innerHTML = "New -->";
   insertAbove.className = "insertAbove";
   insertAbove.addEventListener('click', function() { newInsertAbove(insertAbove) });
-  element.insertBefore(insertAbove, element.firstChild);
+  var newElement = element.insertBefore(insertAbove, element.firstChild);
+  return newElement;
 }
 
 function insertInsertBeneath(element) {
-  insertBeneath = document.createElement("div");
+  var insertBeneath = document.createElement("div");
   insertBeneath.className = "insertBeneath";
-  element.appendChild(insertBeneath);
+  var newElement = element.appendChild(insertBeneath);
+  return newElement;
 }
 
 function createInsertBelow(element) {
-  insertBelow = document.createElement("div");
+  var insertBelow = document.createElement("div");
   insertBelow.className = "insertBelow";
   insertBelow.innerHTML = "New -->";
   insertBelow.addEventListener('click', function() { newInsertBelow(insertBelow) });
@@ -101,7 +103,7 @@ function createInsertBelow(element) {
 }
 
 function createInsertUnder() {
-  insertUnder = document.createElement("div");
+  var insertUnder = document.createElement("div");
   insertUnder.innerHTML = "New -->";
   insertUnder.className = "insertUnder";
   insertUnder.addEventListener('click', function() { newInsertUnder(insertUnder) });
@@ -109,11 +111,12 @@ function createInsertUnder() {
 }
 
 function createInsertLi() {
-  newLi = document.createElement("li");
+  var newLi = document.createElement("li");
   newLi.className = "insert";
-  textBox = document.createElement("input");
+  var textBox = document.createElement("input");
   textBox.type = "text";
-  submit = document.createElement("input");
+  textBox.className = "inlineInput";
+  var submit = document.createElement("input");
   submit.type = "submit";
   submit.value = "submit";
   newLi.appendChild(textBox);
@@ -124,25 +127,24 @@ function createInsertLi() {
 //TODO! replace ALL this with hidden elements & css trickery!
 
 function newInsertAbove(element) {
-  console.log(element);
-  contaningLi = element.parentNode;
-  console.log(contaningLi);
-  newLi = createInsertLi();
-  contaningLi.parentNode.insertBefore(newLi, contaningLi);
+  var contaningLi = element.parentNode;
+  var newLi = createInsertLi();
+  var insertedLi = contaningLi.parentNode.insertBefore(newLi, contaningLi);
+  insertedLi.getElementsByTagName("input")[0].focus();
 }
 
 function newInsertBelow(element) {
-  contaningLi = element.parentNode.parentNode;
-  newLi = createInsertLi();
+  var contaningLi = element.parentNode.parentNode;
+  var newLi = createInsertLi();
   contaningLi.parentNode.insertBefore(newLi, contaningLi.nextSibling);
 }
 
 function newInsertUnder(element) {
   //only on ideas/comments? TAKE ARG OF TYPE!
-  contaningLi = element.parentNode.parentNode;
-  child = document.createElement("ul");
-  ulName = contaningLi.parentNode.className;
-  className = "idea";
+  var contaningLi = element.parentNode.parentNode;
+  var child = document.createElement("ul");
+  var ulName = contaningLi.parentNode.className;
+  var className = "idea";
   if (ulName === "top") {
     className = "category";
   }
@@ -159,20 +161,20 @@ function newInsertUnder(element) {
     className = "comment";
   }
   child.className = className;
-  newLi = createInsertLi();
+  var newLi = createInsertLi();
   child.appendChild(newLi);
   contaningLi.appendChild(child);
 }
 
 function createHeaderPicker() {
-  button = document.getElementById("header-submit");
+  var button = document.getElementById("header-submit");
   button.onclick = function() { toggle('category-picker', 'flex') };
   button.value = "+";
   button.type = "button";
   button.id = "header-button";
-  submit = document.getElementById("unused-button");
+  var submit = document.getElementById("unused-button");
   submit.id = "header-submit"
-  inputs = document.getElementById("many-inputs");
+  var inputs = document.getElementById("many-inputs");
   inputs = setupManyInputs(inputs);
   //appendChild inputs
 }
@@ -182,11 +184,11 @@ function setupManyInputs(element) {
 }
 
 function addSelectItem(ul) {
-  select = document.createElement("select");
-  lis = ul.children;
+  var select = document.createElement("select");
+  var lis = ul.children;
   for(var i=0; i < lis.length; i++) {
-    liText = lis[i].getElementsByClassName("content")[0].childNodes[0].nodeValue;
-    option = document.createElement("option");
+    var liText = lis[i].getElementsByClassName("content")[0].childNodes[0].nodeValue;
+    var option = document.createElement("option");
     option.innerHTML = liText;
     select.appendChild(option);
     //option.value = UNIQUEID <- must have!
@@ -195,9 +197,9 @@ function addSelectItem(ul) {
 }
 
 function toggle(id, display) {
-  element = document.getElementById(id);
-  main = document.getElementById("main");
-  button = document.getElementById("header-button");
+  var element = document.getElementById(id);
+  var main = document.getElementById("main");
+  var button = document.getElementById("header-button");
   if(element.style.display === "none" || element.style.display === "") {
     element.style.display = display;
     main.style.marginTop = "7.1rem";

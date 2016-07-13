@@ -198,42 +198,17 @@ input[type="checkbox"] {
 
 .insertBeneath {
 	position: absolute;
-
 }
-
-/* debug colors
-.insertAbove {
-	background-color: yellow;
-	opacity: 0.5;
-}
-
-.insertBelow {
-	background-color: orange;
-	opacity: 0.5;
-}
-
-.insertUnder {
-	background-color: red;
-	opacity: 0.5;
-}
-*/
 
 .insertUnder {
 	position: absolute;
 	left: 2rem;
 }
 
-.top > li > .content > .insertAbove {
-	bottom: 1.57rem;
+li .insert {
+	padding-top: 0.3rem;
 }
 
-.category > li > .content > .insertAbove {
-	bottom: 1.49rem;
-}
-
-.subcategory > li > .content > .insertAbove, .idea > li > .content > .insertAbove {
-	bottom: 1.01rem;
-}
-.comment > li > .content > .insertAbove {
-	bottom: 0.88rem;
+li .inlineInput {
+	width: 30rem;
 }
