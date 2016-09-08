@@ -83,6 +83,8 @@ ul {
 
 #main {
 	margin-top: 5rem;
+	margin-left: 3rem;
+	margin-right: 3rem;
 }
 
 .top {
@@ -190,6 +192,7 @@ input[type="checkbox"] {
 	font-family: monospace;
 	font-size: 0.4rem;
 	opacity: 0;
+	background-color: gray;
 }
 
 .insertAbove:hover, .insertUnder:hover, .insertBelow:hover {

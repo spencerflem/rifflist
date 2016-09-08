@@ -1,3 +1,28 @@
+/*
+TODO: keyboard navigation, onsumbit, look like real element with dot until confirmed sumbitted, way to end inline submit?, talk to real db
+			idea: insertboxes always exist, just hidden normally, same css trickery, onclick out disappear! expand to fit for textboxes
+			BUG THAT DISSAPEARS WHEN INSPECTED (or resized)! INSERT BELOW!
+			idea - make insert above below list items (like before?)
+			REMOVE ALL FIDDLEY NUMBERS FROM CSS - SIMPLIFY CSS WHERE POSSIBLE
+SHOULD COMMENTS BE CSS TRICKS OR JS?
+WHAT ABOUT COMMENT INSERTS
+WAY TO UPDATE PAGE ON NEW INFO (should be good ideomatic way for this)
+
+TODO SOON:
+onsubmit -- show uplading icon (orange)
+then once its sucessful show as part of list
+get top menu figured out, howevers best idk yet
+figure out how best to store/upload/backend it up
+	possibility - firebase free for hosting and db?
+
+
+notify via email on comments to own submission?
+
+
+
+*/
+
+
 document.addEventListener("DOMContentLoaded", function(e) {
   createCollapsableList(); //serverside in the future
   createNavSidebar(); //serverside in the future
@@ -21,11 +46,11 @@ function insertCollapser(item, incrementingId) {
   checkbox.type = "checkbox";
   checkbox.id = id;
   var minimize = document.createElement("label");
-  minimize.for = id;
+  minimize.htmlFor = id;
   minimize.className = "minimize";
   minimize.innerHTML = "[-]";
   var maximize = document.createElement("label");
-  maximize.for = id;
+  maximize.htmlFor = id;
   maximize.className = "maximize";
   maximize.innerHTML = "[+]";
   item.insertBefore(maximize, item.firstChild); //lowest
@@ -80,7 +105,6 @@ function getItemName(element) {
 function insertInsertAbove(element) {
   var contentItem = element.getElementsByClassName("content")[0];
   var insertAbove = document.createElement("div");
-  insertAbove.innerHTML = "New -->";
   insertAbove.className = "insertAbove";
   insertAbove.addEventListener('click', function() { newInsertAbove(insertAbove) });
   var newElement = element.insertBefore(insertAbove, element.firstChild);
@@ -97,14 +121,12 @@ function insertInsertBeneath(element) {
 function createInsertBelow(element) {
   var insertBelow = document.createElement("div");
   insertBelow.className = "insertBelow";
-  insertBelow.innerHTML = "New -->";
   insertBelow.addEventListener('click', function() { newInsertBelow(insertBelow) });
   return insertBelow;
 }
 
 function createInsertUnder() {
   var insertUnder = document.createElement("div");
-  insertUnder.innerHTML = "New -->";
   insertUnder.className = "insertUnder";
   insertUnder.addEventListener('click', function() { newInsertUnder(insertUnder) });
   return insertUnder;
@@ -124,7 +146,7 @@ function createInsertLi() {
   return newLi;
 }
 
-//TODO! replace ALL this with hidden elements & css trickery!
+//Replace ALL this with hidden elements & css trickery?
 
 function newInsertAbove(element) {
   var contaningLi = element.parentNode;
@@ -183,8 +205,43 @@ function setupManyInputs(element) {
   addSelectItem(document.getElementById("top"));
 }
 
-function addSelectItem(ul) {
+function updateManyInputs() {
+	//if first one changes - all rest should be blanked!!!
+	var noBlanks = true;
+	var selectedIndexes = [];
+	var manyInputs = document.getElementById("many-inputs");
+	var selects = manyInputs.getElementsByTagName("select");
+	for (var i = 0; i < selects.length; i++) {
+		select = selects[i];
+		index = select.selectedIndex;
+		if (index === 0) {
+			noBlanks = false;
+		}
+		else if (noBlanks) {
+			selectedIndexes.push(index);
+		}
+	}
+	while(manyInputs.firstChild) {
+		manyInputs.removeChild(manyInputs.firstChild);
+	}
+	var lastUl = document.getElementById("top");
+	for (var i=0; i < selectedIndexes.length; i++) {
+		index = selectedIndexes[i];
+		addSelectItem(lastUl, index);
+		if (lastUl.children.item(index-1).getElementsByTagName("UL").length > 0) {
+			lastUl = lastUl.children.item(index-1).getElementsByTagName("UL")[0];
+			if(i === selectedIndexes.length - 1) {
+				addSelectItem(lastUl);
+			}
+		}
+	}
+}
+
+function addSelectItem(ul, selectedIndex = -1) {
   var select = document.createElement("select");
+  var blank = document.createElement("option");
+  blank.selected = true;
+  select.appendChild(blank);
   var lis = ul.children;
   for(var i=0; i < lis.length; i++) {
     var liText = lis[i].getElementsByClassName("content")[0].childNodes[0].nodeValue;
@@ -192,7 +249,12 @@ function addSelectItem(ul) {
     option.innerHTML = liText;
     select.appendChild(option);
     //option.value = UNIQUEID <- must have!
+	//<option disabled selected value> -- select an option -- </option>
   }
+  if (selectedIndex >= 0) {
+	select.selectedIndex = selectedIndex;
+  }
+  select.addEventListener('change', function() { updateManyInputs() });
   document.getElementById("many-inputs").appendChild(select);
 }
 
@@ -210,6 +272,10 @@ function toggle(id, display) {
     main.style.marginTop = "5rem";
     button.value = "+";
   }
+}
+
+function insertIntoList() {
+	
 }
 
 function createNavSidebar() {
