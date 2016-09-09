@@ -208,30 +208,10 @@ input[type="checkbox"] {
 	left: 2rem;
 }
 
-.insertDiv {
+li .insert {
 	padding-top: 0.3rem;
 }
 
-.inlineInput {
+li .inlineInput {
 	width: 30rem;
-}
-
-input[type="radio"] {
-	display: none;
-}
-
-.insertDiv .insert{
-	display: none;
-}
-
-.insertDiv ~ label {
-	display: block;
-}
-
-.insertDiv > input:checked ~ label {
-	display: none;
-}
-
-.insertDiv > input:checked ~ .insert {
-	display: block;
 }

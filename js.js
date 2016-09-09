@@ -58,23 +58,21 @@ function insertCollapser(item, incrementingId) {
 }
 
 function createInsertableLinks() {
-  var incrementingId = 0;
   var ideas = document.getElementsByClassName("idea");
   for (var j=0; j < ideas.length; j++) {
     var insertableItems = ideas[j].getElementsByTagName("LI");
     for (var i=0; i < insertableItems.length; i++) {
       var element = insertableItems[i];
-      insertInsertAbove(element, incrementingId);
+      insertInsertAbove(element);
       if (!hasULChild(element)) {
         var insertBeneath = insertInsertBeneath(element);
-        var insertUnder = createInsertUnder(incrementingId);
+        var insertUnder = createInsertUnder(element);
         insertBeneath.appendChild(insertUnder);
         if (!hasElementSibling(element)) {
-          var insertBelow = createInsertBelow(incrementingId);
+          var insertBelow = createInsertBelow(element);
           insertBeneath.appendChild(insertBelow);
         }
       }
-	  incrementingId++;
     }
   }
 }
@@ -103,8 +101,7 @@ function getItemName(element) {
   return itemName;
 }
 
-function insertInsertAbove(element, incrementingId) {
-  id = "a" + incrementingId
+function insertInsertAbove(element) {
   var contentItem = element.getElementsByClassName("content")[0];
   var insertAbove = document.createElement("div");
   insertAbove.className = "insertAbove";
@@ -120,27 +117,14 @@ function insertInsertBeneath(element) {
   return newElement;
 }
 
-function createInsertBelow(incrementingId) {
-  id = "b" + incrementingId
-  var insertBelowDiv = document.createElement("div");
-  insertBelowDiv.className = "insertDiv"
-  var radioButton = document.createElement("input");
-  radioButton.type = "radio";
-  radioButton.id = id;
-  radioButton.name = "insert";
-  var insertBelow = document.createElement("label");
+function createInsertBelow(element) {
+  var insertBelow = document.createElement("div");
   insertBelow.className = "insertBelow";
-  insertBelow.htmlFor = id;
-  insertBelow.innerHTML = "aaaa";
-  var insertLi = createInsertLi();
-  insertBelowDiv.appendChild(radioButton);
-  insertBelowDiv.appendChild(insertBelow);
-  insertBelowDiv.appendChild(insertLi);
-  return insertBelowDiv;
+  insertBelow.addEventListener('click', function() { newInsertBelow(insertBelow) });
+  return insertBelow;
 }
 
-function createInsertUnder(incrementingId) {
-  id = "u" + incrementingId
+function createInsertUnder() {
   var insertUnder = document.createElement("div");
   insertUnder.className = "insertUnder";
   insertUnder.addEventListener('click', function() { newInsertUnder(insertUnder) });
@@ -148,7 +132,7 @@ function createInsertUnder(incrementingId) {
 }
 
 function createInsertLi() {
-  var newLi = document.createElement("div");
+  var newLi = document.createElement("li");
   newLi.className = "insert";
   var textBox = document.createElement("input");
   textBox.type = "text";
@@ -168,6 +152,12 @@ function newInsertAbove(element) {
   var newLi = createInsertLi();
   var insertedLi = contaningLi.parentNode.insertBefore(newLi, contaningLi);
   insertedLi.getElementsByTagName("input")[0].focus();
+}
+
+function newInsertBelow(element) {
+  var contaningLi = element.parentNode.parentNode;
+  var newLi = createInsertLi();
+  contaningLi.parentNode.insertBefore(newLi, contaningLi.nextSibling);
 }
 
 function newInsertUnder(element) {
@@ -262,6 +252,7 @@ function addSelectItem(ul, index, selectedIndex = -1) {
   if (selectedIndex >= 0) {
 	select.selectedIndex = selectedIndex;
   }
+  console.log(index);
   select.onchange = function(j) { return function() { updateManyInputs(j); }; }(index); //MAGIC! look into how clojures work
   document.getElementById("many-inputs").appendChild(select);
 }
