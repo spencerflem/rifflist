@@ -9,16 +9,15 @@ WHAT ABOUT COMMENT INSERTS
 WAY TO UPDATE PAGE ON NEW INFO (should be good ideomatic way for this)
 
 TODO SOON:
-onsubmit -- show uplading icon (orange)
-then once its sucessful show as part of list
-get top menu figured out, howevers best idk yet
+onsubmit -- show as part of list with Submitting in orange
+remove submitting when confirmed uploaded
+some way to close inserts?
+hide ability to make 10 insert lis under same comment
+
 figure out how best to store/upload/backend it up
 	possibility - firebase free for hosting and db?
 
-
 notify via email on comments to own submission?
-
-
 
 */
 
@@ -202,16 +201,15 @@ function createHeaderPicker() {
 }
 
 function setupManyInputs(element) {
-  addSelectItem(document.getElementById("top"));
+  addSelectItem(document.getElementById("top"), 0);
 }
 
-function updateManyInputs() {
-	//if first one changes - all rest should be blanked!!!
+function updateManyInputs(changedNumber) {
 	var noBlanks = true;
 	var selectedIndexes = [];
 	var manyInputs = document.getElementById("many-inputs");
 	var selects = manyInputs.getElementsByTagName("select");
-	for (var i = 0; i < selects.length; i++) {
+	for (var i = 0; i <= changedNumber; i++) {
 		select = selects[i];
 		index = select.selectedIndex;
 		if (index === 0) {
@@ -225,19 +223,19 @@ function updateManyInputs() {
 		manyInputs.removeChild(manyInputs.firstChild);
 	}
 	var lastUl = document.getElementById("top");
-	for (var i=0; i < selectedIndexes.length; i++) {
+	for (var i=0; i <= changedNumber; i++) {
 		index = selectedIndexes[i];
-		addSelectItem(lastUl, index);
+		addSelectItem(lastUl, i, index);
 		if (lastUl.children.item(index-1).getElementsByTagName("UL").length > 0) {
 			lastUl = lastUl.children.item(index-1).getElementsByTagName("UL")[0];
 			if(i === selectedIndexes.length - 1) {
-				addSelectItem(lastUl);
+				addSelectItem(lastUl, i+1);
 			}
 		}
 	}
 }
 
-function addSelectItem(ul, selectedIndex = -1) {
+function addSelectItem(ul, index, selectedIndex = -1) {
   var select = document.createElement("select");
   var blank = document.createElement("option");
   blank.selected = true;
@@ -254,7 +252,8 @@ function addSelectItem(ul, selectedIndex = -1) {
   if (selectedIndex >= 0) {
 	select.selectedIndex = selectedIndex;
   }
-  select.addEventListener('change', function() { updateManyInputs() });
+  console.log(index);
+  select.onchange = function(j) { return function() { updateManyInputs(j); }; }(index); //MAGIC! look into how clojures work
   document.getElementById("many-inputs").appendChild(select);
 }
 
