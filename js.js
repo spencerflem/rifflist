@@ -28,12 +28,12 @@ minimize on bottom for long comments
 
 
 document.addEventListener("DOMContentLoaded", function(e) {
-  createCollapsableList(); //serverside in the future
-  createNavSidebar(); //serverside in the future
-  //createInsertableLinks(); //serverside in the future
+  createCollapsableList(); //serverside in the future?
+  createNavSidebar(); //serverside in the future?
   createHeaderPicker();
 });
 
+//adding the minimize and maximize bits
 function createCollapsableList() {
   collapsableItems = document.getElementById("top").getElementsByTagName("LI");
   var incrementingId = 0;
@@ -62,137 +62,7 @@ function insertCollapser(item, incrementingId) {
   item.insertBefore(checkbox, item.firstChild); //highest
 }
 
-function createInsertableLinks() {
-  var ideas = document.getElementsByClassName("idea");
-  for (var j=0; j < ideas.length; j++) {
-    var insertableItems = ideas[j].getElementsByTagName("LI");
-    for (var i=0; i < insertableItems.length; i++) {
-      var element = insertableItems[i];
-      insertInsertAbove(element);
-      if (!hasULChild(element)) {
-        var insertBeneath = insertInsertBeneath(element);
-        var insertUnder = createInsertUnder(element);
-        insertBeneath.appendChild(insertUnder);
-        if (!hasElementSibling(element)) {
-          var insertBelow = createInsertBelow(element);
-          insertBeneath.appendChild(insertBelow);
-        }
-      }
-    }
-  }
-}
-
-function hasULChild(element) {
-  return element.getElementsByTagName("UL").length > 0;
-}
-
-function hasElementSibling(element) {
-  var next = element.nextSibling;
-  var hasSibling = false;
-  while(next !== null) {
-    if(next.nodeType === 1) {
-      hasSibling = true;
-    }
-    next = next.nextSibling;
-  }
-  return hasSibling;
-}
-
-function getItemName(element) {
-  var itemName = "Comment";
-  if(element.parentNode.className === "idea") {
-    itemName = "Idea";
-  }
-  return itemName;
-}
-
-function insertInsertAbove(element) {
-  var contentItem = element.getElementsByClassName("content")[0];
-  var insertAbove = document.createElement("div");
-  insertAbove.className = "insertAbove";
-  insertAbove.addEventListener('click', function() { newInsertAbove(insertAbove); });
-  var newElement = element.insertBefore(insertAbove, element.firstChild);
-  return newElement;
-}
-
-function insertInsertBeneath(element) {
-  var insertBeneath = document.createElement("div");
-  insertBeneath.className = "insertBeneath";
-  var newElement = element.appendChild(insertBeneath);
-  return newElement;
-}
-
-function createInsertBelow(element) {
-  var insertBelow = document.createElement("div");
-  insertBelow.className = "insertBelow";
-  insertBelow.addEventListener('click', function() { newInsertBelow(insertBelow); });
-  return insertBelow;
-}
-
-function createInsertUnder() {
-  var insertUnder = document.createElement("div");
-  insertUnder.className = "insertUnder";
-  insertUnder.addEventListener('click', function() { newInsertUnder(insertUnder); });
-  return insertUnder;
-}
-
-function createInsertLi() {
-  var newForm = document.createElement("form");
-  newForm.className = "insert";
-  var textBox = document.createElement("input");
-  textBox.type = "text";
-  textBox.className = "inlineInput";
-  var submit = document.createElement("input");
-  submit.type = "submit";
-  submit.value = "post";
-  submit.addEventListener('click', function() { formSubmitted(insertAbove); });
-  newForm.appendChild(textBox);
-  newForm.appendChild(submit);
-  return newForm;
-}
-
-//Replace ALL this with hidden elements & css trickery?
-
-function newInsertAbove(element) {
-  var contaningLi = element.parentNode;
-  var newLi = createInsertLi();
-  var insertedLi = contaningLi.parentNode.insertBefore(newLi, contaningLi);
-  insertedLi.getElementsByTagName("input")[0].focus();
-}
-
-function newInsertBelow(element) {
-  var contaningLi = element.parentNode.parentNode;
-  var newLi = createInsertLi();
-  contaningLi.parentNode.insertBefore(newLi, contaningLi.nextSibling);
-}
-
-function newInsertUnder(element) {
-  //only on ideas/comments? TAKE ARG OF TYPE!
-  var contaningLi = element.parentNode.parentNode;
-  var child = document.createElement("ul");
-  var ulName = contaningLi.parentNode.className;
-  var className = "idea";
-  if (ulName === "top") {
-    className = "category";
-  }
-  else if (ulName === "category") {
-    className = "subcategory";
-  }
-  else if (ulName === "subcategory") {
-    className = "idea";
-  }
-  else if (ulName === "idea") {
-    className = "comment";
-  }
-  else if (ulName === "comment") {
-    className = "comment";
-  }
-  child.className = className;
-  var newLi = createInsertLi();
-  child.appendChild(newLi);
-  contaningLi.appendChild(child);
-}
-
+//the header picker (semi magic)
 function createHeaderPicker() {
   var button = document.getElementById("header-submit");
   button.onclick = function() { toggle('category-picker', 'flex'); };
@@ -278,31 +148,62 @@ function toggle(id, display) {
   }
 }
 
-function insertIntoList() {
-	
-}
+//TODO: these seem unseful to be made
+//function insertIntoList() {
+//	POSSIBILITY: This is called on every comment at beginiing, more DRY
+//}
+//
+//function createNavSidebar() {
+//
+//}
 
-function createNavSidebar() {
-
-}
-
+//The insert inside UI
 targetDiv = null;
+
+function resetContent(div) {
+    div.className = "content";
+    inserts = div.getElementsByClassName("inserts");
+    for(var i = 0; i < inserts.length; i++) {
+        div.removeChild(inserts[i]);
+    }
+}
+
+function setupContent(div) {
+    div.className = "selectedContent";
+    inserts = document.createElement("div");
+    inserts.className = "inserts";
+    insertBelow = document.createElement("input");
+    insertBelow.type = "text";
+    insertBelow.className = "insertBelow";
+    insertUnder = document.createElement("input");
+    insertUnder.type = "text";
+    insertUnder.className = "insertUnder";
+    inserts.appendChild(insertBelow);
+    inserts.appendChild(insertUnder);
+    div.appendChild(inserts);
+}
 
 document.onclick = function(event) {
     if(event.target.className === "content") {
         if(targetDiv !== null) {
-            targetDiv.className = "content";
+            resetContent(targetDiv);
         }
         targetDiv = event.target;
-        event.target.className = "selectedContent";
+        setupContent(targetDiv);
     }
     else if(event.target.className === "selectedContent") {
         //do nothing
     }
     else {
         if(targetDiv !== null) {
-            targetDiv.className = "content";
+            resetContent(targetDiv);
         }
         targetDiv = null;
+        if(event.target.className === "insertUnder") {
+            //add into list
+        }
+        else if(event.target.className === "insertBelow") {
+            //add into list
+        }
     }
 };

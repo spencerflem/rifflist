@@ -105,14 +105,14 @@ ul {
 }
 
 .top ul {
- border-left: 0.1rem dashed silver;
+    border-left: 0.1rem dashed silver;
 }
 
 .top li {
 	text-shadow: 0.055em 0.055em #FEBF50;
 	font-family: 'Permanent Marker', cursive;
 	font-size: 1.15rem;
-	padding-top: 0.3rem;
+	padding-top: 0.5rem;
 }
 
  .category li {
@@ -128,7 +128,6 @@ ul {
 
 .idea li {
 	font-weight: normal;
-	padding: 0;
 }
 
 .comment li {
@@ -163,20 +162,38 @@ input[type="checkbox"] {
 	display: none;
 }
 
-.top li > input:checked ~ .content {
+.content, .selectedContent {
+	position: relative;
+	display: inline-block;
+    width: 40rem;
+}
+
+.selectedContent {
+    background-color: bisque;
+/*    padding: 2rem 0;*/
+/*    border:3px solid rgba(0, 0, 0, 0.5); */
+    padding: 0.25rem;
+    margin: -0.25rem;
+    border-radius:10px;
+}
+
+.top li > input:checked ~ .content, .top li > input:checked ~ .selectedContent {
 	color: gray;
 	font-style: italic;
 	font-weight: bold;
 	text-shadow: 0.05rem 0.05rem #FED48A;
 	font-size: 0.85em;
     display: inline-block;
+    background-color: inherit;
+    padding: 0;
+    margin: 0;
 }
 
-.top .category li > input:checked ~ .content {
+.top .category li > input:checked ~ .content, .top .category li > input:checked ~ .selectedContent {
 	text-shadow: none;
 }
 
-.top .idea li > input:checked ~ .content {
+.top .idea li > input:checked ~ .content, .top .idea li > input:checked ~ .selectedContent {
 	font-weight: normal;
 }
 
@@ -187,47 +204,27 @@ input[type="checkbox"] {
 	text-shadow: none;
 	display: inline;
 	font-weight: normal;
+    -webkit-touch-callout: none
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-.content, .selectedContent {
-	position: relative;
-	display: inline-block;
-    width: 50em;
+.insertBelow {
+    display: inline-block;
 }
 
-.selectedContent {
-/*    background-color: bisque;*/
-    padding: 2rem 0;
-}
-
-.insertAbove, .insertUnder, .insertBelow {
-	height: 0.45rem;
-	width: 1.9rem;
-	cursor: pointer;
-	display: block;
-	font-family: monospace;
-	font-size: 0.4rem;
-	opacity: 0;
-	background-color: gray;
-}
-
-.insertAbove:hover, .insertUnder:hover, .insertBelow:hover {
-	opacity: 1;
-}
-
-.insertBeneath {
-	position: absolute;
+.insertBelow::before {
+    content: "↓";
 }
 
 .insertUnder {
-	position: absolute;
-	left: 2rem;
+    display: inline-block;
 }
 
-li .insert {
-	padding-top: 0.3rem;
-}
-
-li .inlineInput {
-	width: 30rem;
+.insertUnder::before {
+    content: "↳";
 }
