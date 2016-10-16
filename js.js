@@ -20,64 +20,64 @@ notify via email on comments to own submission?
 
 
 TODO BUGS:
-make way to add comments from selected bits
-returning the file under to white bugs out
+many inputs totally broken
+new comment spacing is whack
 minimize on bottom for long comments
 
 */
 
 
 document.addEventListener("DOMContentLoaded", function(e) {
-  createCollapsableList(); //serverside in the future?
-  createNavSidebar(); //serverside in the future?
-  createHeaderPicker();
+    insertAllIntoList();
+    createHeaderPicker();
 });
 
-//adding the minimize and maximize bits
-function createCollapsableList() {
-  collapsableItems = document.getElementById("top").getElementsByTagName("LI");
-  var incrementingId = 0;
-  for (var i=0; i < collapsableItems.length; i++) {
-    var item = collapsableItems[i];
-    insertCollapser(item, incrementingId);
-    incrementingId++;
-  }
+var incrementingId = 0;
+
+function insertAllIntoList() {
+    collapsableItems = document.getElementById("top").getElementsByTagName("LI");
+    for (var i=0; i < collapsableItems.length; i++) {
+        var item = collapsableItems[i];
+        insertCollapser(item);
+    }
 }
 
-function insertCollapser(item, incrementingId) {
-  var id = "id" + incrementingId;
-  var checkbox = document.createElement("input");
-  checkbox.type = "checkbox";
-  checkbox.id = id;
-  var minimize = document.createElement("label");
-  minimize.htmlFor = id;
-  minimize.className = "minimize";
-  minimize.innerHTML = "[-]";
-  var maximize = document.createElement("label");
-  maximize.htmlFor = id;
-  maximize.className = "maximize";
-  maximize.innerHTML = "[+]";
-  item.insertBefore(maximize, item.firstChild); //lowest
-  item.insertBefore(minimize, item.firstChild);
-  item.insertBefore(checkbox, item.firstChild); //highest
+function insertCollapser(item) {
+    var id = "id" + incrementingId++;
+    var checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = id;
+    var minimize = document.createElement("label");
+    minimize.htmlFor = id;
+    minimize.className = "minimize";
+    minimize.innerHTML = "[-]";
+    var maximize = document.createElement("label");
+    maximize.htmlFor = id;
+    maximize.className = "maximize";
+    maximize.innerHTML = "[+]";
+    item.insertBefore(maximize, item.firstChild); //lowest
+    item.insertBefore(minimize, item.firstChild);
+    item.insertBefore(checkbox, item.firstChild); //highest
+    item.getElementsByClassName("content")[0].tabIndex = 0;
 }
 
 //the header picker (semi magic)
 function createHeaderPicker() {
-  var button = document.getElementById("header-submit");
-  button.onclick = function() { toggle('category-picker', 'flex'); };
-  button.value = "+";
-  button.type = "button";
-  button.id = "header-button";
-  var submit = document.getElementById("unused-button");
-  submit.id = "header-submit";
-  var inputs = document.getElementById("many-inputs");
-  inputs = setupManyInputs(inputs);
-  //appendChild inputs
+    var button = document.getElementById("header-submit");
+    button.onclick = function() { toggle('category-picker', 'flex'); };
+    button.value = "+";
+    button.type = "button";
+    button.id = "header-button";
+    var submit = document.getElementById("unused-button");
+    submit.id = "header-submit";
+    var inputs = document.getElementById("many-inputs");
+    inputs = setupManyInputs(inputs);
+    document.getElementById("header-input").focus();
+    //appendChild inputs
 }
 
 function setupManyInputs(element) {
-  addSelectItem(document.getElementById("top"), 0);
+    addSelectItem(document.getElementById("top"), 0);
 }
 
 function updateManyInputs(changedNumber) {
@@ -112,40 +112,40 @@ function updateManyInputs(changedNumber) {
 }
 
 function addSelectItem(ul, index, selectedIndex = -1) {
-  var select = document.createElement("select");
-  var blank = document.createElement("option");
-  blank.selected = true;
-  select.appendChild(blank);
-  var lis = ul.children;
-  for(var i=0; i < lis.length; i++) {
-    var liText = lis[i].getElementsByClassName("content")[0].childNodes[0].nodeValue;
-    var option = document.createElement("option");
-    option.innerHTML = liText;
-    select.appendChild(option);
-    //option.value = UNIQUEID <- must have!
-	//<option disabled selected value> -- select an option -- </option>
-  }
-  if (selectedIndex >= 0) {
-	select.selectedIndex = selectedIndex;
-  }
-  select.onchange = function(j) { return function() { updateManyInputs(j); }; }(index); //MAGIC! look into how clojures work
-  document.getElementById("many-inputs").appendChild(select);
+    var select = document.createElement("select");
+    var blank = document.createElement("option");
+    blank.selected = true;
+    select.appendChild(blank);
+    var lis = ul.children;
+    for(var i=0; i < lis.length; i++) {
+        var liText = lis[i].getElementsByClassName("content")[0].childNodes[0].nodeValue;
+        var option = document.createElement("option");
+        option.innerHTML = liText;
+        select.appendChild(option);
+        //option.value = UNIQUEID <- must have!
+        //<option disabled selected value> -- select an option -- </option>
+    }
+    if (selectedIndex >= 0) {
+        select.selectedIndex = selectedIndex;
+    }
+    select.onchange = function(j) { return function() { updateManyInputs(j); }; }(index); //MAGIC! look into how clojures work
+    document.getElementById("many-inputs").appendChild(select);
 }
 
 function toggle(id, display) {
-  var element = document.getElementById(id);
-  var main = document.getElementById("main");
-  var button = document.getElementById("header-button");
-  if(element.style.display === "none" || element.style.display === "") {
-    element.style.display = display;
-    main.style.marginTop = "7.1rem";
-    button.value = "-";
-  }
-  else {
-    element.style.display = "none";
-    main.style.marginTop = "5rem";
-    button.value = "+";
-  }
+    var element = document.getElementById(id);
+    var main = document.getElementById("main");
+    var button = document.getElementById("header-button");
+    if(element.style.display === "none" || element.style.display === "") {
+        element.style.display = display;
+        main.style.marginTop = "7.1rem";
+        button.value = "-";
+    }
+    else {
+        element.style.display = "none";
+        main.style.marginTop = "5rem";
+        button.value = "+";
+    }
 }
 
 //TODO: these seem unseful to be made
@@ -160,50 +160,149 @@ function toggle(id, display) {
 //The insert inside UI
 targetDiv = null;
 
-function resetContent(div) {
-    div.className = "content";
-    inserts = div.getElementsByClassName("inserts");
-    for(var i = 0; i < inserts.length; i++) {
-        div.removeChild(inserts[i]);
+function resetTargetDiv() {
+    if(targetDiv !== null) {
+        targetDiv.className = "content";
+        targetDiv.removeChild(document.getElementById("inserts"));
+        targetDiv = null;
     }
+}
+
+function insertBelowLi() {
+    console.log("hark");
+    var insertLi = createInsertLi();
+    var commentLi = document.getElementById("insertBelow").parentNode.parentNode.parentNode;
+    var insertedLi = commentLi.parentNode.insertBefore(insertLi, commentLi.nextSibling);
+    insertCollapser(insertedLi);
+    insertedLi.getElementsByTagName("input")[1].focus();
+}
+
+function insertUnderLi() {
+    console.log("harken");
+    var insertLi = createInsertLi();
+    var commentLi = document.getElementById("insertUnder").parentNode.parentNode.parentNode;
+    ul = commentLi.getElementsByTagName("UL");
+    var insertedLi = null;
+    if(ul.length) {
+        insertedLi = ul[0].insertBefore(insertLi, ul[0].firstChild);
+    }
+    else {
+        var newUl = nextUl(commentLi.parentNode.className);
+        commentLi.appendChild(newUl);
+        insertedLi = newUl.appendChild(insertLi)
+    }
+    insertCollapser(insertedLi);
+    insertedLi.getElementsByTagName("input")[1].focus();
 }
 
 function setupContent(div) {
     div.className = "selectedContent";
-    inserts = document.createElement("div");
-    inserts.className = "inserts";
-    insertBelow = document.createElement("input");
+    var inserts = document.createElement("div");
+    inserts.id = "inserts";
+    var insertBelow = document.createElement("input");
     insertBelow.type = "text";
-    insertBelow.className = "insertBelow";
-    insertUnder = document.createElement("input");
+    insertBelow.id = "insertBelow";
+    insertBelow.onkeydown = function(event) {
+        if(event.keyCode !== 9) {
+            insertBelowLi();
+            resetTargetDiv();
+        }
+    }
+    var insertUnder = document.createElement("input");
     insertUnder.type = "text";
-    insertUnder.className = "insertUnder";
+    insertUnder.id = "insertUnder";
+    insertUnder.onkeydown = function(event) {
+        if(event.keyCode !== 9) {
+            insertUnderLi();
+            resetTargetDiv();
+        }
+    } //if not tab!
+    inserts.appendChild(document.createTextNode("↓"));
     inserts.appendChild(insertBelow);
+    inserts.appendChild(document.createTextNode("↳"));
     inserts.appendChild(insertUnder);
     div.appendChild(inserts);
 }
 
 document.onclick = function(event) {
-    if(event.target.className === "content") {
-        if(targetDiv !== null) {
-            resetContent(targetDiv);
-        }
+    if(event.target.className === "content" && !event.target.parentNode.firstChild.checked) {
+        resetTargetDiv();
         targetDiv = event.target;
         setupContent(targetDiv);
     }
-    else if(event.target.className === "selectedContent") {
+    else if(event.target.className === "selectedContent" || event.target.id === "inserts") {
         //do nothing
     }
     else {
-        if(targetDiv !== null) {
-            resetContent(targetDiv);
+        if(event.target.id === "insertBelow") {
+            insertBelowLi();
         }
-        targetDiv = null;
-        if(event.target.className === "insertUnder") {
-            //add into list
+        else if(event.target.id === "insertUnder") {
+            insertUnderLi();
         }
-        else if(event.target.className === "insertBelow") {
-            //add into list
-        }
+        resetTargetDiv();
     }
+};
+
+function createInsertLi() {
+    var li = document.createElement("li");
+    var content = document.createElement("div");
+    content.className = "content";
+    var textInput = document.createElement("input");
+    textInput.type = "text";
+    textInput.className = "inlineInsert";
+    var submit = document.createElement("input");
+    submit.type = "submit";
+    submit.value = "post";
+    submit.onclick = function() { textboxToComment(content); };
+    content.appendChild(textInput);
+    content.appendChild(submit);
+    li.appendChild(content);
+    return li;
+}
+
+function nextUl(className) {
+    console.log(className);
+    var newUl = document.createElement("ul");
+    if (className === "top") {
+        newUl.className = "category";
+    }
+    else if (className === "category") {
+        newUl.className = "subcategory";
+    }
+    else if (className === "subcategory") {
+        newUl.className = "idea";
+    }
+    else if (className === "idea") {
+        newUl.className = "comment";
+    }
+    else {
+        newUl.className = "comment";
+    }
+    return newUl;
+}
+
+function textboxToComment(div) {
+    div.innerHTML = div.getElementsByTagName("input")[0].value;
+}
+
+document.onkeydown = function(e){
+   if(e.keyCode == 13){
+       console.log(document.activeElement.className);
+       if(document.activeElement.className === "inlineInsert") {
+           console.log(document.activeElement.parentNode.getElementsByTagName("input")[1]);
+           document.activeElement.parentNode.getElementsByTagName("input")[1].click();
+       }
+       else if(document.activeElement.id === "header-input") {
+           console.log("header");
+       }
+       else if(document.activeElement.type === "option") {
+           console.log("option");
+       }
+       else if(document.activeElement.tagName = "LI") {
+            resetTargetDiv();
+            targetDiv = document.activeElement;
+            setupContent(targetDiv);
+       }
+   }
 };
