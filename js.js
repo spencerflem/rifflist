@@ -9,15 +9,20 @@ WHAT ABOUT COMMENT INSERTS
 WAY TO UPDATE PAGE ON NEW INFO (should be good ideomatic way for this)
 
 TODO SOON:
-onsubmit -- show as part of list with Submitting in orange
-remove submitting when confirmed uploaded
-some way to close inserts?
-hide ability to make 10 insert lis under same comment
+top submit takes you to part of page where its submiting, clears itself
+persistant ids for all comments stored on db so ideasite/#entertainment will work?
+onsubmit from within - look like its part of the page show submitting... remove ... when its submitted
 
-figure out how best to store/upload/backend it up
-	possibility - firebase free for hosting and db?
+host on heliohost with SQLite
+how to do this?
 
 notify via email on comments to own submission?
+
+
+TODO BUGS:
+make way to add comments from selected bits
+returning the file under to white bugs out
+minimize on bottom for long comments
 
 */
 
@@ -25,7 +30,7 @@ notify via email on comments to own submission?
 document.addEventListener("DOMContentLoaded", function(e) {
   createCollapsableList(); //serverside in the future
   createNavSidebar(); //serverside in the future
-  createInsertableLinks(); //serverside in the future
+  //createInsertableLinks(); //serverside in the future
   createHeaderPicker();
 });
 
@@ -78,7 +83,7 @@ function createInsertableLinks() {
 }
 
 function hasULChild(element) {
-  return element.getElementsByTagName("UL").length > 0
+  return element.getElementsByTagName("UL").length > 0;
 }
 
 function hasElementSibling(element) {
@@ -105,7 +110,7 @@ function insertInsertAbove(element) {
   var contentItem = element.getElementsByClassName("content")[0];
   var insertAbove = document.createElement("div");
   insertAbove.className = "insertAbove";
-  insertAbove.addEventListener('click', function() { newInsertAbove(insertAbove) });
+  insertAbove.addEventListener('click', function() { newInsertAbove(insertAbove); });
   var newElement = element.insertBefore(insertAbove, element.firstChild);
   return newElement;
 }
@@ -120,29 +125,30 @@ function insertInsertBeneath(element) {
 function createInsertBelow(element) {
   var insertBelow = document.createElement("div");
   insertBelow.className = "insertBelow";
-  insertBelow.addEventListener('click', function() { newInsertBelow(insertBelow) });
+  insertBelow.addEventListener('click', function() { newInsertBelow(insertBelow); });
   return insertBelow;
 }
 
 function createInsertUnder() {
   var insertUnder = document.createElement("div");
   insertUnder.className = "insertUnder";
-  insertUnder.addEventListener('click', function() { newInsertUnder(insertUnder) });
+  insertUnder.addEventListener('click', function() { newInsertUnder(insertUnder); });
   return insertUnder;
 }
 
 function createInsertLi() {
-  var newLi = document.createElement("li");
-  newLi.className = "insert";
+  var newForm = document.createElement("form");
+  newForm.className = "insert";
   var textBox = document.createElement("input");
   textBox.type = "text";
   textBox.className = "inlineInput";
   var submit = document.createElement("input");
   submit.type = "submit";
-  submit.value = "submit";
-  newLi.appendChild(textBox);
-  newLi.appendChild(submit);
-  return newLi;
+  submit.value = "post";
+  submit.addEventListener('click', function() { formSubmitted(insertAbove); });
+  newForm.appendChild(textBox);
+  newForm.appendChild(submit);
+  return newForm;
 }
 
 //Replace ALL this with hidden elements & css trickery?
@@ -189,12 +195,12 @@ function newInsertUnder(element) {
 
 function createHeaderPicker() {
   var button = document.getElementById("header-submit");
-  button.onclick = function() { toggle('category-picker', 'flex') };
+  button.onclick = function() { toggle('category-picker', 'flex'); };
   button.value = "+";
   button.type = "button";
   button.id = "header-button";
   var submit = document.getElementById("unused-button");
-  submit.id = "header-submit"
+  submit.id = "header-submit";
   var inputs = document.getElementById("many-inputs");
   inputs = setupManyInputs(inputs);
   //appendChild inputs
@@ -223,13 +229,13 @@ function updateManyInputs(changedNumber) {
 		manyInputs.removeChild(manyInputs.firstChild);
 	}
 	var lastUl = document.getElementById("top");
-	for (var i=0; i <= changedNumber; i++) {
-		index = selectedIndexes[i];
-		addSelectItem(lastUl, i, index);
+	for (var j=0; i <= changedNumber; j++) {
+		index = selectedIndexes[j];
+		addSelectItem(lastUl, j, index);
 		if (lastUl.children.item(index-1).getElementsByTagName("UL").length > 0) {
 			lastUl = lastUl.children.item(index-1).getElementsByTagName("UL")[0];
-			if(i === selectedIndexes.length - 1) {
-				addSelectItem(lastUl, i+1);
+			if(j === selectedIndexes.length - 1) {
+				addSelectItem(lastUl, j+1);
 			}
 		}
 	}
@@ -252,7 +258,6 @@ function addSelectItem(ul, index, selectedIndex = -1) {
   if (selectedIndex >= 0) {
 	select.selectedIndex = selectedIndex;
   }
-  console.log(index);
   select.onchange = function(j) { return function() { updateManyInputs(j); }; }(index); //MAGIC! look into how clojures work
   document.getElementById("many-inputs").appendChild(select);
 }
@@ -280,3 +285,24 @@ function insertIntoList() {
 function createNavSidebar() {
 
 }
+
+targetDiv = null;
+
+document.onclick = function(event) {
+    if(event.target.className === "content") {
+        if(targetDiv !== null) {
+            targetDiv.className = "content";
+        }
+        targetDiv = event.target;
+        event.target.className = "selectedContent";
+    }
+    else if(event.target.className === "selectedContent") {
+        //do nothing
+    }
+    else {
+        if(targetDiv !== null) {
+            targetDiv.className = "content";
+        }
+        targetDiv = null;
+    }
+};

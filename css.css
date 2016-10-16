@@ -34,6 +34,7 @@ header .right {
 header .above {
 	display: flex;
 	flex-direction: row;
+    margin: 0.25em 0;
 }
 
 header .below {
@@ -45,19 +46,25 @@ header .below {
 	margin-top: 0.6rem;
 }
 
+.fileunder {
+	margin-right: 0.5rem;
+}
+
 #header-logo {
 	font-family: 'Permanent Marker', cursive;
 	text-shadow: 0.07em 0.07em #FEBF50;
 	font-size: 1.35rem;
 	text-decoration: none;
 	color: black;
-	margin: 0 2em;
-	padding-top: 0.4rem;
+	margin: 0 0.7em 0 2em;
+    height: 2rem;
 }
 
 #header-input {
 	flex-grow: 1;
 	font-family: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
+    height: 1.5em;
+    padding-left: 0.5em;
 }
 
 header .header-button {
@@ -83,13 +90,17 @@ ul {
 
 #main {
 	margin-top: 5rem;
-	margin-left: 3rem;
+	margin-left: 2%;
 	margin-right: 3rem;
+}
+
+#about {
+	margin-left: 2em;
 }
 
 .top {
 	width: 88%;
-	margin: 1rem 0 3rem 1em;
+	margin: 1rem 0 3rem 0;
 	border: 0;
 }
 
@@ -155,11 +166,10 @@ input[type="checkbox"] {
 .top li > input:checked ~ .content {
 	color: gray;
 	font-style: italic;
-	display: inline;
-	font-family: monospace;
 	font-weight: bold;
 	text-shadow: 0.05rem 0.05rem #FED48A;
 	font-size: 0.85em;
+    display: inline-block;
 }
 
 .top .category li > input:checked ~ .content {
@@ -179,9 +189,15 @@ input[type="checkbox"] {
 	font-weight: normal;
 }
 
-.content {
+.content, .selectedContent {
 	position: relative;
-	display: inline;
+	display: inline-block;
+    width: 50em;
+}
+
+.selectedContent {
+/*    background-color: bisque;*/
+    padding: 2rem 0;
 }
 
 .insertAbove, .insertUnder, .insertBelow {
