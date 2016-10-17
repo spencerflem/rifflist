@@ -1,0 +1,168 @@
+body {
+	background-color: #F7F7F7;
+	font-family: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
+	margin: 0;
+	padding: 0;
+}
+
+header {
+	font-size: 1rem;
+	position: fixed;
+	background-color: #F7F7F7;
+	width: 100%;
+	top: 0;
+	left: 0;
+	border-bottom: 0.3em solid black;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;;
+	z-index: 10;
+}
+
+header .right, header .left {
+	padding: 0.6rem 0;
+}
+
+header .right {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	margin: 0 1.3rem;
+}
+
+header .above {
+	display: flex;
+	flex-direction: row;
+    margin: 0.25em 0;
+}
+
+header .below {
+	flex-direction: row;
+}
+
+#category-picker {
+	display: none;
+	margin-top: 0.6rem;
+}
+
+.fileunder {
+	margin-right: 0.5rem;
+}
+
+#header-logo {
+	font-family: 'Permanent Marker', cursive;
+	text-shadow: 0.07em 0.07em #FEBF50;
+	font-size: 1.35rem;
+	text-decoration: none;
+	color: black;
+	margin: 0 0.7em 0 2em;
+    height: 2rem;
+}
+
+#header-input {
+	flex-grow: 1;
+    height: 1.5em;
+    padding-left: 0.5em;
+}
+
+header .header-button {
+	margin-left: 1.3rem;
+	font-family: monospace;
+}
+
+#many-inputs {
+	flex-grow: 1;
+}
+
+footer {
+	color: gray;
+	padding: 0.4em 0 0.4em 2em;
+	border-top: 0.1em solid gray;
+	font-size: 0.8rem;
+}
+
+ul {
+	list-style: none;
+	padding-left: 2rem;
+}
+
+#main {
+	margin-top: 5rem;
+	margin-left: 2%;
+	margin-right: 3rem;
+}
+
+#about {
+	margin-left: 2em;
+}
+
+.top {
+	width: 88%;
+	margin: 1rem 0 3rem 0;
+	border: 0;
+}
+
+.top ul {
+    border-left: .1rem dashed silver;
+}
+
+.top li {
+	text-shadow: 0.055em 0.055em #FEBF50;
+	font-family: 'Permanent Marker', cursive;
+	font-size: 1.15rem;
+	padding-top: 0.5rem;
+}
+
+ .category li {
+	text-shadow: none;
+	font-size: 1.1rem;
+}
+
+ .subcategory li {
+	font-family: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
+	font-size: 0.85rem;
+	font-weight: bold;
+}
+
+.idea li {
+	font-weight: normal;
+}
+
+.comment li {
+	font-size: 0.75rem;
+}
+
+label {
+	cursor: pointer;
+}
+
+input[type="checkbox"] {
+	display: none;
+}
+
+input[type="text"] {
+	font-family: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
+}
+
+.top li > .maximize {
+	display: none;
+}
+
+.top li > input:checked ~ .maximize {
+	display: inline;
+}
+
+.top li > input:checked ~ :not(.maximize) {
+	display: none;
+}
+
+.content {
+/*    padding-left: 1rem;*/
+}
+
+.content, .selectedContent {
+	position: relative;
+/*	display: inline-block;*/
+    width: 40rem;
+}

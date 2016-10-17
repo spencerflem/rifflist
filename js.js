@@ -8,21 +8,17 @@ SHOULD COMMENTS BE CSS TRICKS OR JS?
 WHAT ABOUT COMMENT INSERTS
 WAY TO UPDATE PAGE ON NEW INFO (should be good ideomatic way for this)
 
-TODO SOON:
-top submit takes you to part of page where its submiting, clears itself
-persistant ids for all comments stored on db so ideasite/#entertainment will work?
-onsubmit from within - look like its part of the page show submitting... remove ... when its submitted
-
-host on heliohost with SQLite
-how to do this?
-
-notify via email on comments to own submission?
-
 
 TODO BUGS:
-many inputs totally broken
-new comment spacing is whack
-minimize on bottom for long comments
+
+flexbox to fix html spacing issues?
+flexbox in general?
+
+mobile view is still broken
+hide logo when you click into textbox
+one possible fix - cut off comments once they get to far and have link to thread directly redditesque
+submitting ... until confirmed
+id for comments so they can be directly linled
 
 */
 
@@ -70,45 +66,54 @@ function createHeaderPicker() {
     button.id = "header-button";
     var submit = document.getElementById("unused-button");
     submit.id = "header-submit";
-    var inputs = document.getElementById("many-inputs");
-    inputs = setupManyInputs(inputs);
+    submit.onclick = function() { submitToList() };
+    inputs = setupManyInputs();
     document.getElementById("header-input").focus();
-    //appendChild inputs
 }
 
-function setupManyInputs(element) {
+function setupManyInputs() {
     addSelectItem(document.getElementById("top"), 0);
 }
 
+function clearManyInputs() {
+    var manyInputs = document.getElementById("many-inputs");
+    while(manyInputs.firstChild) {
+        manyInputs.removeChild(manyInputs.firstChild);
+    }
+}
+
 function updateManyInputs(changedNumber) {
-	var noBlanks = true;
-	var selectedIndexes = [];
-	var manyInputs = document.getElementById("many-inputs");
-	var selects = manyInputs.getElementsByTagName("select");
-	for (var i = 0; i <= changedNumber; i++) {
-		select = selects[i];
-		index = select.selectedIndex;
-		if (index === 0) {
-			noBlanks = false;
-		}
-		else if (noBlanks) {
-			selectedIndexes.push(index);
-		}
-	}
-	while(manyInputs.firstChild) {
-		manyInputs.removeChild(manyInputs.firstChild);
-	}
-	var lastUl = document.getElementById("top");
-	for (var j=0; i <= changedNumber; j++) {
-		index = selectedIndexes[j];
-		addSelectItem(lastUl, j, index);
-		if (lastUl.children.item(index-1).getElementsByTagName("UL").length > 0) {
-			lastUl = lastUl.children.item(index-1).getElementsByTagName("UL")[0];
-			if(j === selectedIndexes.length - 1) {
-				addSelectItem(lastUl, j+1);
-			}
-		}
-	}
+    var noBlanks = true;
+    var selectedIndexes = [];
+    var manyInputs = document.getElementById("many-inputs");
+    var selects = manyInputs.getElementsByTagName("select");
+    for (var i = 0; i <= changedNumber; i++) {
+        select = selects[i];
+        index = select.selectedIndex;
+        if (index === 0) {
+            noBlanks = false;
+        }
+        else if (noBlanks) {
+            selectedIndexes.push(index);
+        }
+    }
+    clearManyInputs();
+    var lastUl = document.getElementById("top");
+    endOfTheLine = false;
+    for (var j=0; j < selectedIndexes.length; j++) {
+        index = selectedIndexes[j];
+        addSelectItem(lastUl, j, index);
+        if (lastUl.children.item(index-1).getElementsByTagName("UL").length > 0) {
+            lastUl = lastUl.children.item(index-1).getElementsByTagName("UL")[0];
+        }
+        else {
+            endOfTheLine = true;
+        }
+    }
+    if(!endOfTheLine) {
+        addSelectItem(lastUl, selectedIndexes.length);
+    }
+    manyInputs.getElementsByTagName("select")[changedNumber].focus();
 }
 
 function addSelectItem(ul, index, selectedIndex = -1) {
@@ -122,8 +127,6 @@ function addSelectItem(ul, index, selectedIndex = -1) {
         var option = document.createElement("option");
         option.innerHTML = liText;
         select.appendChild(option);
-        //option.value = UNIQUEID <- must have!
-        //<option disabled selected value> -- select an option -- </option>
     }
     if (selectedIndex >= 0) {
         select.selectedIndex = selectedIndex;
@@ -148,15 +151,6 @@ function toggle(id, display) {
     }
 }
 
-//TODO: these seem unseful to be made
-//function insertIntoList() {
-//	POSSIBILITY: This is called on every comment at beginiing, more DRY
-//}
-//
-//function createNavSidebar() {
-//
-//}
-
 //The insert inside UI
 targetDiv = null;
 
@@ -169,7 +163,6 @@ function resetTargetDiv() {
 }
 
 function insertBelowLi() {
-    console.log("hark");
     var insertLi = createInsertLi();
     var commentLi = document.getElementById("insertBelow").parentNode.parentNode.parentNode;
     var insertedLi = commentLi.parentNode.insertBefore(insertLi, commentLi.nextSibling);
@@ -178,7 +171,6 @@ function insertBelowLi() {
 }
 
 function insertUnderLi() {
-    console.log("harken");
     var insertLi = createInsertLi();
     var commentLi = document.getElementById("insertUnder").parentNode.parentNode.parentNode;
     ul = commentLi.getElementsByTagName("UL");
@@ -189,7 +181,7 @@ function insertUnderLi() {
     else {
         var newUl = nextUl(commentLi.parentNode.className);
         commentLi.appendChild(newUl);
-        insertedLi = newUl.appendChild(insertLi)
+        var insertedLi = newUl.appendChild(insertLi)
     }
     insertCollapser(insertedLi);
     insertedLi.getElementsByTagName("input")[1].focus();
@@ -283,23 +275,70 @@ function nextUl(className) {
 }
 
 function textboxToComment(div) {
-    div.innerHTML = div.getElementsByTagName("input")[0].value;
+    if(div.getElementsByTagName("input")[0].value !== "") {
+        div.innerHTML = div.getElementsByTagName("input")[0].value;
+    }
+    //TODO: IMPORTANT!
+    //EDIT MANY INPUTS, BUT LEAVE SELECTION IN SAME PLACE
+}
+
+function submitToList() {
+    if(document.getElementById("header-input").value !== "") {
+        var selects = document.getElementsByTagName("select");
+        var selectIndexes = [];
+        for (var i=0; i < selects.length; i++) {
+            var index = selects[i].selectedIndex;
+            if(index > 0) {
+                selectIndexes.push(index - 1);
+            }
+        }
+        console.log(selectIndexes);
+        var ul = document.getElementById("top");
+        for (var j=0; j < selectIndexes.length; j++) {
+            index = selectIndexes[j];
+            if(ul.children.item(index).getElementsByTagName("UL").length > 0) {
+                ul = ul.children.item(index).getElementsByTagName("UL")[0];
+            }
+            else {
+                ul = ul.children.item(index).appendChild(nextUl(ul.className));
+            }
+        }
+        console.log(ul);
+        li = document.createElement("li");
+        content = document.createElement("div")
+        content.className = "content";
+        content.innerHTML = document.getElementById("header-input").value;
+        li.appendChild(content);
+        var insertedLi = ul.appendChild(li);
+        insertCollapser(insertedLi);
+        
+        clearManyInputs();
+        setupManyInputs();
+        if(document.getElementById("header-button").value === "-") {
+            document.getElementById("header-button").click();
+        }
+        document.getElementById("header-input").value = "";
+        document.getElementById("header-input").focus();
+    }
 }
 
 document.onkeydown = function(e){
    if(e.keyCode == 13){
-       console.log(document.activeElement.className);
+       console.log(document.activeElement.tagName);
        if(document.activeElement.className === "inlineInsert") {
            console.log(document.activeElement.parentNode.getElementsByTagName("input")[1]);
            document.activeElement.parentNode.getElementsByTagName("input")[1].click();
        }
        else if(document.activeElement.id === "header-input") {
-           console.log("header");
+           if(document.getElementById("header-button").value === "+") {
+               document.getElementById("header-button").focus().click(); //gives an error
+               //or focus on the submit?
+           }
        }
-       else if(document.activeElement.type === "option") {
-           console.log("option");
+       else if(document.activeElement.tagName === "SELECT") {
+           document.getElementById("header-submit").click();
        }
-       else if(document.activeElement.tagName = "LI") {
+       else if(document.activeElement.className === "content") {
             resetTargetDiv();
             targetDiv = document.activeElement;
             setupContent(targetDiv);

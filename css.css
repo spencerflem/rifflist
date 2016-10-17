@@ -1,3 +1,4 @@
+/*Is flex necessary? Vendor prefixes?*/
 body {
 	background-color: #F7F7F7;
 	font-family: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
@@ -157,6 +158,10 @@ input[type="text"] {
 	display: none;
 }
 
+.content {
+    display: inline;
+}
+
 .content, .selectedContent {
 	position: relative;
 	display: inline-block;
@@ -165,11 +170,10 @@ input[type="text"] {
 
 .selectedContent {
     background-color: bisque;
-/*    padding: 2rem 0;*/
-/*    border:3px solid rgba(0, 0, 0, 0.5); */
     padding: 0.25rem;
     margin: -0.25rem;
     border-radius:10px;
+    display: inline-block;
 }
 
 .selectedContent:focus {
@@ -198,7 +202,7 @@ input[type="text"] {
 
 .minimize, .maximize {
 	font-family: monospace;
-	margin-left: -0.41rem;
+	margin-left: -0.3rem; /* was -0.41rem firefox likes this, chrome like -0.3 :/ */
 	font-size: 0.5rem;
 	text-shadow: none;
 	display: inline;
@@ -210,6 +214,18 @@ input[type="text"] {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    padding-right: 0.5rem;
+    vertical-align: top;
+    position: relative;
+    top: 0.7rem;
+}
+
+.category .minimize, .category .maximize {
+    top: 0.6rem;
+}
+
+.subcategory .minimize, .subcategory .maximize {
+    top: 0.4rem;
 }
 
 #inserts {
@@ -223,4 +239,8 @@ input[type="text"] {
     margin: 0 0.2rem;
     height: 0.3rem;
     width: 3rem;
+}
+
+.top input[type='text'] {
+    margin-right: 0.5em;
 }
