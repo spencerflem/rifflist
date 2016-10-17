@@ -151,19 +151,21 @@ input[type="text"] {
 }
 
 .top li > input:checked ~ .maximize {
-	display: inline;
+	display: inline-block;
 }
 
 .top li > input:checked ~ :not(.maximize) {
 	display: none;
 }
 
-.content {
-    display: inline;
+.content:hover {
+    padding: 0.25rem;
+    margin: -0.25rem;
+    background-color: lightgrey;
+    border-radius:10px;
 }
 
 .content, .selectedContent {
-	position: relative;
 	display: inline-block;
     width: 40rem;
 }
@@ -192,6 +194,10 @@ input[type="text"] {
     margin: 0;
 }
 
+.top li > input:checked ~ .content input, .top li > input:checked ~ .selectedContent input {
+/*	grey out minimized input*/
+}
+
 .top .category li > input:checked ~ .content, .top .category li > input:checked ~ .selectedContent {
 	text-shadow: none;
 }
@@ -205,7 +211,6 @@ input[type="text"] {
 	margin-left: -0.3rem; /* was -0.41rem firefox likes this, chrome like -0.3 :/ */
 	font-size: 0.5rem;
 	text-shadow: none;
-	display: inline;
 	font-weight: normal;
     -webkit-touch-callout: none
     -webkit-touch-callout: none;

@@ -38,6 +38,8 @@ function insertAllIntoList() {
     }
 }
 
+//TODO: SKIP INSERTS WHEN SEARCHING!!!
+
 function insertCollapser(item) {
     var id = "id" + incrementingId++;
     var checkbox = document.createElement("input");
@@ -123,16 +125,20 @@ function addSelectItem(ul, index, selectedIndex = -1) {
     select.appendChild(blank);
     var lis = ul.children;
     for(var i=0; i < lis.length; i++) {
-        var liText = lis[i].getElementsByClassName("content")[0].childNodes[0].nodeValue;
-        var option = document.createElement("option");
-        option.innerHTML = liText;
-        select.appendChild(option);
+        if(lis[i].getElementsByClassName("content")[0].getElementsByClassName("inlineInsert").length === 0) {
+            var liText = lis[i].getElementsByClassName("content")[0].childNodes[0].nodeValue;
+            var option = document.createElement("option");
+            option.innerHTML = liText;
+            select.appendChild(option);
+        }
     }
     if (selectedIndex >= 0) {
         select.selectedIndex = selectedIndex;
     }
-    select.onchange = function(j) { return function() { updateManyInputs(j); }; }(index); //MAGIC! look into how clojures work
-    document.getElementById("many-inputs").appendChild(select);
+    if(select.options.length > 1) {
+        select.onchange = function(j) { return function() { updateManyInputs(j); }; }(index); //MAGIC! look into how clojures work
+        document.getElementById("many-inputs").appendChild(select);
+    }
 }
 
 function toggle(id, display) {
@@ -157,7 +163,9 @@ targetDiv = null;
 function resetTargetDiv() {
     if(targetDiv !== null) {
         targetDiv.className = "content";
-        targetDiv.removeChild(document.getElementById("inserts"));
+        if(document.getElementById("inserts") !== null) {
+            targetDiv.removeChild(document.getElementById("inserts"));
+        }
         targetDiv = null;
     }
 }
@@ -191,28 +199,44 @@ function setupContent(div) {
     div.className = "selectedContent";
     var inserts = document.createElement("div");
     inserts.id = "inserts";
-    var insertBelow = document.createElement("input");
-    insertBelow.type = "text";
-    insertBelow.id = "insertBelow";
-    insertBelow.onkeydown = function(event) {
-        if(event.keyCode !== 9) {
-            insertBelowLi();
-            resetTargetDiv();
+    if(div.children.length > 0) {
+        var cancel = document.createElement("input");
+        cancel.type = "button";
+        cancel.onclick = function() {
+            var li = this.parentNode.parentNode.parentNode;
+            var ul = li.parentNode;
+            ul.removeChild(li);
+            if(ul.children.length === 0) {
+                ul.parentNode.removeChild(ul);
+            }
         }
+        cancel.value = "cancel";
+        inserts.appendChild(cancel);
     }
-    var insertUnder = document.createElement("input");
-    insertUnder.type = "text";
-    insertUnder.id = "insertUnder";
-    insertUnder.onkeydown = function(event) {
-        if(event.keyCode !== 9) {
-            insertUnderLi();
-            resetTargetDiv();
+    else {
+        var insertBelow = document.createElement("input");
+        insertBelow.type = "text";
+        insertBelow.id = "insertBelow";
+        insertBelow.onkeydown = function(event) {
+            if(event.keyCode !== 9) {
+                insertBelowLi();
+                resetTargetDiv();
+            }
         }
-    } //if not tab!
-    inserts.appendChild(document.createTextNode("↓"));
-    inserts.appendChild(insertBelow);
-    inserts.appendChild(document.createTextNode("↳"));
-    inserts.appendChild(insertUnder);
+        var insertUnder = document.createElement("input");
+        insertUnder.type = "text";
+        insertUnder.id = "insertUnder";
+        insertUnder.onkeydown = function(event) {
+            if(event.keyCode !== 9) {
+                insertUnderLi();
+                resetTargetDiv();
+            }
+        }
+        inserts.appendChild(document.createTextNode("↓"));
+        inserts.appendChild(insertBelow);
+        inserts.appendChild(document.createTextNode("↳"));
+        inserts.appendChild(insertUnder);
+    }
     div.appendChild(inserts);
 }
 
@@ -278,8 +302,9 @@ function textboxToComment(div) {
     if(div.getElementsByTagName("input")[0].value !== "") {
         div.innerHTML = div.getElementsByTagName("input")[0].value;
     }
-    //TODO: IMPORTANT!
+    //TODO: VERY IMPORTANT!
     //EDIT MANY INPUTS, BUT LEAVE SELECTION IN SAME PLACE
+    //essentially: add option into list, and increment selected if its inserted before
 }
 
 function submitToList() {
@@ -296,6 +321,8 @@ function submitToList() {
         var ul = document.getElementById("top");
         for (var j=0; j < selectIndexes.length; j++) {
             index = selectIndexes[j];
+            //TODO: VERY IMPORTANT
+            //MUST EXCLUDE THE INLINEINSERT LIS
             if(ul.children.item(index).getElementsByTagName("UL").length > 0) {
                 ul = ul.children.item(index).getElementsByTagName("UL")[0];
             }
