@@ -121,6 +121,9 @@ function updateManyInputs(changedNumber) {
 function addSelectItem(ul, index, selectedIndex = -1) {
     var select = document.createElement("select");
     var blank = document.createElement("option");
+    if(ul.id === "top") {
+        blank.innerHTML = "Uncategorized";
+    }
     blank.selected = true;
     select.appendChild(blank);
     var lis = ul.children;
@@ -218,7 +221,7 @@ function setupContent(div) {
         insertBelow.type = "text";
         insertBelow.id = "insertBelow";
         insertBelow.onkeydown = function(event) {
-            if(event.keyCode !== 9) {
+            if(event.keyCode !== 9 && event.keyCode !== 16) {
                 insertBelowLi();
                 resetTargetDiv();
             }
@@ -323,11 +326,20 @@ function submitToList() {
             index = selectIndexes[j];
             //TODO: VERY IMPORTANT
             //MUST EXCLUDE THE INLINEINSERT LIS
-            if(ul.children.item(index).getElementsByTagName("UL").length > 0) {
-                ul = ul.children.item(index).getElementsByTagName("UL")[0];
+            //VERRY BUGGY FIX PLS
+            var prunedLi = 0;
+            for(var k = index; k < ul.children.length; k++) {
+                if(ul.children.item(k).getElementsByClassName("content")[0].getElementsByClassName("inlineInsert").length === 0) {
+                    prunedLi = ul.children.item(k);
+                }
+            }
+            console.log(prunedLi);
+            var prunedUls = prunedLi.getElementsByTagName("UL");
+            if(prunedUls.length > 0) {
+                ul = ul.prunedUls[0];
             }
             else {
-                ul = ul.children.item(index).appendChild(nextUl(ul.className));
+                ul = prunedLi.appendChild(nextUl(ul.className));
             }
         }
         console.log(ul);
@@ -372,3 +384,7 @@ document.onkeydown = function(e){
        }
    }
 };
+
+/*
+error message when post w/o content
+*/

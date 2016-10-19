@@ -165,6 +165,10 @@ input[type="text"] {
     border-radius:10px;
 }
 
+.selectedContent:hover {
+    background-color: #FEBF50;
+}
+
 .content, .selectedContent {
 	display: inline-block;
     width: 40rem;
@@ -195,7 +199,12 @@ input[type="text"] {
 }
 
 .top li > input:checked ~ .content input, .top li > input:checked ~ .selectedContent input {
-/*	grey out minimized input*/
+    color: gray;
+    -moz-transform: skewX(-15deg);
+    -webkit-transform: skewX(-15deg);
+    -o-transform: skewX(-15deg);
+    -ms-transform: skewX(-15deg);
+    transform: skewX(-15deg);
 }
 
 .top .category li > input:checked ~ .content, .top .category li > input:checked ~ .selectedContent {
