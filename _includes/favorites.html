@@ -1,8 +1,13 @@
-<div class="archive">
-  {% for post in site.posts reversed %} 
+<div class="favorites">
+  {% for post in site.tags.FAVORITE reversed %} 
+    {% if forloop.first == true %}
+      <h1>
+        FAVORITES
+      </h1>
+    {% endif %}
     {% assign value = forloop.index | modulo:3 %}
       {% if value == 1 %}
-        <div class="row">'
+        <div class="row">
       {% endif %}
           <div class="col-sm-4">
               <div class="preview-panel">
