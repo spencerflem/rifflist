@@ -15,10 +15,8 @@
       {% if value == 0 %}
         </div>
       {% endif %}
-      {% if forloop.last %}
-        {% if value != 0}
+    {% if forloop.last == true and value != 0 %}
       </div>
-        {% endif %}
-      {% endif %}
+    {% endif %}
   {% endfor %}
 </div>
