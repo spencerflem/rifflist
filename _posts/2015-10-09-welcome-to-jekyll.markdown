@@ -3,6 +3,7 @@ layout: post
 title:  "Welcome to Jekyll!"
 date:   2015-10-07 15:39:40
 img:
+  mobile: /images/300x100.png
   small: /images/300x300.png
   large: /images/800x600.png
 tags:
