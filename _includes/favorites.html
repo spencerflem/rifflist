@@ -9,6 +9,14 @@
                   {{ post.title }} - {{ post.date | date: "%B %-d, %Y" }}
              </div>
           </div>
-    {% cycle 'end row' : nil, nil, '</div>' %}
+      {% assign value = forloop.index | modulo:3 %}
+      {% if value == 0 %}
+        </div>
+      {% endif %}
+      {% if forloop.last %}
+        {% value != 0}
+      </div>
+        {% endif %}
+      {% endif %}
   {% endfor %}
 </div>
