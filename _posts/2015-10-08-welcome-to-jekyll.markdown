@@ -3,7 +3,8 @@ layout: post
 title:  "Welcome to Jekyll!"
 date:   2015-10-08 15:39:40
 preview: /images/300x300.png
-tags: "favorite"
+tags:
+- favorite
 ---
 
 ![Picture 1](/images/800x600.png)
