@@ -9,7 +9,6 @@
                   {{ post.title }} - {{ page.date | date: "%B %-d, %Y" }}
              </div>
           </div>
-  {% cycle 'end row' : nil, nil, '</div>' %}
+    {% cycle 'end row' : nil, nil, '</div>' %}
   {% endfor %}
-  {% cycle 'end row' : nil, '</div>', '</div>' %}
 </div>
