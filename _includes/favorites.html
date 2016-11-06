@@ -1,5 +1,5 @@
-<div class="favorites">
-  {% for post in site.posts %}
+<div class="archive">
+  {% for post in site.posts reversed %}
       {% cycle 'add row' : '<div class="row">', nil, nil %}
           <div class="col-sm-4">
               <div class="preview-panel">
