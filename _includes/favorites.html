@@ -1,6 +1,9 @@
 <div class="archive">
-  {% for post in site.posts reversed %}
-      {% cycle 'add row' : '<div class="row">', nil, nil %}
+  {% for post in site.posts reversed %} 
+    {% assign value = forloop.index | modulo:3 %}
+      {% if value == 1 %}
+        <div class="row">'
+      {% endif %}
           <div class="col-sm-4">
               <div class="preview-panel">
                   <a href="{{ post.url | prepend: site.baseurl }}">
@@ -9,12 +12,11 @@
                   {{ post.title }} - {{ post.date | date: "%B %-d, %Y" }}
              </div>
           </div>
-      {% assign value = forloop.index | modulo:3 %}
       {% if value == 0 %}
         </div>
       {% endif %}
       {% if forloop.last %}
-        {% value != 0}
+        {% if value != 0}
       </div>
         {% endif %}
       {% endif %}
