@@ -217,6 +217,7 @@ pre {
 }
 .wrap {
   position: relative;
+  border-bottom: 0.2em solid black;
 }
 .site-title {
   position: relative;
@@ -237,7 +238,8 @@ pre {
 }
 .current {
     background-color: lightgray;
-    margin: 2em;
+    margin: 2em 0;
+    padding: 2em;
     border-radius: 20px;
 }
 .current .preview-panel {
