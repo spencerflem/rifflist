@@ -223,12 +223,11 @@ pre {
  */
 .itemgroup {
     margin: 2em 0;
-    border-radius: 20px;
-    border: 0.1em solid black;
-    position: relative;
-    padding: 2em;
 }
 .itemheader {
-  position: relative;
-  bottom: 3em;
+    vertical-align: middle;
+    text-align: center;
+}
+.current {
+    background-color: lightgray;
 }
