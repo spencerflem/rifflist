@@ -126,7 +126,7 @@
   border: 1px solid transparent;
 }
 .current .preview-panel:hover {
-  border: 1px solid #adadad;
+  border: 1px solid #c4c4c4;
 }
 
 
@@ -194,5 +194,4 @@
     &:hover {
         border: 1px solid $grey-color-light;
     }
-    white-space: nowrap;
 }

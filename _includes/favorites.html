@@ -15,7 +15,9 @@
                     <img src="{{ post.img.small | prepend: site.baseurl }}" class="hidden-xs">
                     <img src="{{ post.img.mobile | prepend: site.baseurl }}" class="hidden-sm hidden-md hidden-lg hidden-xlg">
                   </a>
-                  {{ post.title }} - {{ post.date | date: "%B %-d, %Y" }}
+                  <div>
+                    {{ post.title }} - {{ post.date | date: "%B %-d, %Y" }}
+                  </div>
              </div>
           </div>
       {% if value == 0 %}
