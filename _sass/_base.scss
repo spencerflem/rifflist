@@ -214,6 +214,7 @@ pre {
     font-family: 'Contrail One', cursive;
     font-size: 2em;
     margin: 0 2em;
+    vertical-align: middle;
 }
 .wrap {
   position: relative;
@@ -233,7 +234,6 @@ pre {
     margin: 2em 0;
 }
 .itemheader {
-    vertical-align: middle;
     text-align: center;
 }
 .current {
@@ -243,7 +243,7 @@ pre {
     border-radius: 20px;
 }
 .current .preview-panel {
-  border: none;
+  border: 1px solid transparent;
 }
 .current .preview-panel:hover {
   border: 1px solid gray;
