@@ -2,7 +2,7 @@
   {% for post in site.posts reversed %} 
     {% if forloop.first == true %}
       <h1 class="itemheader">
-        ARCHIVE
+        ARCHIVE:
       </h1>
     {% endif %}
     {% assign value = forloop.index | modulo:3 %}

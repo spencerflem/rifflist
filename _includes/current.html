@@ -2,7 +2,7 @@
   {% for post in site.posts limit:1 %} 
     {% if forloop.first == true %}
       <h1 class="itemheader">
-        TODAY'S MECHANIC
+        TODAY'S MECHANIC:
       </h1>
     {% endif %}
     {% assign value = forloop.index | modulo:3 %}

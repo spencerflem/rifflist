@@ -207,27 +207,6 @@ pre {
 
 
 /**
- * Header
- */
-.headertext {
-    white-space: nowrap;
-    font-family: 'Contrail One', cursive;
-    font-size: 2em;
-    margin: 0 2em;
-    vertical-align: middle;
-}
-.wrap {
-  position: relative;
-  border-bottom: 0.2em solid black;
-}
-.site-title {
-  position: relative;
-  top: 0.5rem;
-}
-
-
-
-/**
  * Group
  */
 .itemgroup {
@@ -246,5 +225,5 @@ pre {
   border: 1px solid transparent;
 }
 .current .preview-panel:hover {
-  border: 1px solid gray;
+  border: 1px solid #adadad;
 }
