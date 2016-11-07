@@ -207,11 +207,29 @@ pre {
 
 
 /**
-* Header
-*/
+ * Header
+ */
 .headertext {
-  white-space: nowrap;
-  font-family: 'Contrail One', cursive;
-  font-size: 2em;
-  margin: 0 2em;
+    white-space: nowrap;
+    font-family: 'Contrail One', cursive;
+    font-size: 2em;
+    margin: 0 2em;
+}
+
+
+
+/**
+ * Group
+ */
+.itemgroup {
+    margin 2em 0;
+    border-radius: 20px;
+    border 0.1em solid black;
+    position: relative;
+    margin: 0 2em;
+    padding: 2em;
+}
+.itemheader {
+  position: relative;
+  bottom: 3em;
 }
