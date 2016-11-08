@@ -196,6 +196,19 @@
     }
 }
 
-.flush col-sm-3 {
+.preview-panel {
+    padding: 10px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border: 1px solid $background-color;
+    
+    &:hover {
+        border: 1px solid $grey-color-light;
+    }
+    display: inline-block;
+}
+
+.flush {
     padding: 0; 
 }
