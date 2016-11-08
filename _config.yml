@@ -2,7 +2,7 @@
 title: Spenteractiv - Year of Mechanics
 email: spencer@spentronics.com
 description: > # this means to ignore newlines until "baseurl:"
-  New mechanics fresh every day. A shameless ripoff of [spuidi](http://www.squidi.net/three/). Feel free to use these ideas, be inspired by them, criticize them or ignore them. See the mechanics not yet written or polished in the [spenteractiv slush list](/slush).
+  New mechanics fresh every day. A shameless ripoff spuidi. Feel free to use these ideas, be inspired by them, criticize them or ignore them. See the mechanics not yet written or polished in the spenteractic slush list.
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://yourdomain.com" # the base hostname & protocol for your site
 
