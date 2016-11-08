@@ -184,6 +184,7 @@
 /**
  * Misc
  */
+
 .preview-panel {
     padding: 10px;
     box-sizing: border-box;
@@ -194,21 +195,9 @@
     &:hover {
         border: 1px solid $grey-color-light;
     }
-}
-
-.preview-panel-test {
-    padding: 10px;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    border: 1px solid $background-color;
-    
-    &:hover {
-        border: 1px solid $grey-color-light;
-    }
     display: inline-block;
-    width:25%;
-    min-width: 300px;
+    width:100%;
+    max-width: 300px;
 }
 
 .flush {
