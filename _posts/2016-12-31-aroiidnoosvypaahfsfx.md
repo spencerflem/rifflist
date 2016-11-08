@@ -2,6 +2,7 @@
 layout: post
 title:  "aroiidnoosvypaahfsfx"
 date:   2016-12-31 15:39:40
+descripton:  "A sample description describing this bland and lifeless randomly generated post"
 img:
   mobile: /images/300x100.png
   small: /images/300x300.png

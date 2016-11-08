@@ -118,7 +118,7 @@
     text-align: center;
 }
 .current {
-    background-color: lightgray;
+    background-color: $grey-color;
     margin: 2em 0;
     padding: 2em;
     border-radius: 20px;
@@ -127,9 +127,11 @@
   border: 1px solid transparent;
   max-width: 600px;
   width: 100%;
+  font-size: 2em;
+  font-family: 'Contrail One', cursive;
 }
 .current .preview-panel:hover {
-  border: 1px solid #c4c4c4;
+  border: 1px solid $grey-color-dark:;
 }
 
 
