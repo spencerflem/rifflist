@@ -1,8 +1,10 @@
 <div class="itemgroup">
-  <h1 class="itemheader">
-    TODAY'S MECHANIC:
-  </h1>
   {% for post in site.posts limit:1 %}
+    {% if forloop.first == true %}
+    <h1 class="itemheader">
+      TODAY'S MECHANIC:
+    </h1>
+    {% endif %}
     <div class="current">
       <div class="preview-panel">
         <a href="{{ post.url | prepend: site.baseurl }}">
