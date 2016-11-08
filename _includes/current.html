@@ -12,7 +12,9 @@
           <img src="{{ post.img.wide | prepend: site.baseurl }}">
         </a>
       </div>
-      {{post.description}}
+      <div class="description">
+        {{post.description}}
+      </div>
     </div>
   {% endfor %}
 </div>
