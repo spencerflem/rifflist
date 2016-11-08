@@ -126,6 +126,7 @@
 .current .preview-panel {
   border: 1px solid transparent;
   max-width: 600px;
+  width: 100%;
 }
 .current .preview-panel:hover {
   border: 1px solid #c4c4c4;
@@ -197,7 +198,7 @@
         border: 1px solid $grey-color-light;
     }
     display: inline-block;
-    width:25%;
+    width:23%;
 }
 .preview-panel-mobile {
     padding: 10px;
@@ -211,5 +212,5 @@
     }
     display: inline-block;
     width:100%;
-    max-width: 300px;
+    max-width: 250px;
 }
