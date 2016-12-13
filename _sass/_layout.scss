@@ -196,26 +196,11 @@
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     border: 1px solid $background-color;
-    
-    &:hover {
-        border: 1px solid $grey-color-light;
-    }
-    display: inline-block;
-    width:23%;
-    vertical-align: top;
-}
-.preview-panel-mobile {
-    padding: 10px;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    border: 1px solid $background-color;
-    
     &:hover {
         border: 1px solid $grey-color-light;
     }
     display: inline-block;
     width:100%;
-    max-width: 250px;
+    max-width: 90em;
     vertical-align: top;
 }
