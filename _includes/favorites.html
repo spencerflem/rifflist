@@ -10,7 +10,13 @@
           <img src="{{ post.img.wide | prepend: site.baseurl }}">
         </a>
         <div>
-          {{ post.title }} - {{ post.date | date: "%B %-d, %Y" }}
+          {% assign m = page.date | date: "%B" %}
+          {% case m %}
+            {% when 'April' or 'May' or 'June' or 'July' %}{{ m }}
+            {% when 'September' %}Sept.
+            {% else %}{{ page.date | date: "%b" }}.
+          {% endcase %}
+          {{ post.title }} - {{ m post.date | date: " %-d, %Y" }}
         </div>
     </div>
   {% endfor %}
